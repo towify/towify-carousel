@@ -1,0 +1,52 @@
+:host{
+  display: block;
+
+  .carousel-container {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    overflow: hidden;
+  }
+
+  .carousel-item {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    width: 100%;
+    height: 100%;
+    grid-area: 1/1/2/2;
+  }
+
+  .slide-previous {
+    margin-right: 100%;
+    justify-self: end;
+    pointer-events: none;
+  }
+
+  .current {
+    margin-left: 0;
+    justify-self: start;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .slide-next {
+    margin-left: 100%;
+    justify-self: start;
+    pointer-events: none;
+  }
+
+  .fade-previous {
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .fade-next {
+    pointer-events: none;
+    opacity: 0;
+  }
+}
