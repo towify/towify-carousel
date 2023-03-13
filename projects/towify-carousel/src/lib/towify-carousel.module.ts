@@ -1,3 +1,8 @@
+/*
+ * @Author: allen
+ * @Date: 2023/3/13
+*/
+
 import { NgModule } from '@angular/core';
 import { TowifyCarouselComponent } from './towify-carousel.component';
 import { TowifyCarouselContentDirective } from './towify-carousel-content.directive';

@@ -1,4 +1,9 @@
-import { Component, ContentChild, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+/*
+ * @Author: allen
+ * @Date: 2023/3/13
+*/
+
+import { Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { TowifyCarouselContentDirective } from './towify-carousel-content.directive';
 import { CarouselType } from './towify-carousel.type';
@@ -26,6 +31,9 @@ export class TowifyCarouselComponent implements OnInit {
     count: 3,
     type: 'slide'
   }
+
+  @Output()
+  indexChanged: EventEmitter<number> = new EventEmitter<number>();
 
   #delayTimeOut?: number;
   #prepareIndex;
@@ -161,6 +169,7 @@ export class TowifyCarouselComponent implements OnInit {
     this.viewTransition = undefined;
     this.viewTranslateX = 0;
     this.viewOpacity = 0;
+    this.indexChanged.emit(this.currentIndex);
     this.autoPlayAnimation();
   }
 
