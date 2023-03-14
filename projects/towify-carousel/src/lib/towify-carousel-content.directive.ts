@@ -10,6 +10,6 @@ import { Directive, TemplateRef } from '@angular/core';
 })
 export class TowifyCarouselContentDirective {
 
-  constructor(public templateRef: TemplateRef<unknown>) { }
+  constructor(public readonly templateRef: TemplateRef<unknown>) { }
 
 }
