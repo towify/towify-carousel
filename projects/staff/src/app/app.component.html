@@ -1,7 +1,23 @@
-<towify-carousel style="width: 50%; height: 50%; background: gray; margin-top: 10px; margin-left: 40px" [data]="carousel">
+<towify-carousel
+  style="
+    width: 50%;
+    height: 50%;
+    background: gray;
+    margin-top: 10px;
+    margin-left: 40px;
+  "
+  [config]="{
+    delay: 4,
+    interval: 1,
+    count: 3,
+    type: 'fade'
+  }"
+  [data]="carousel"
+>
   <ng-template let-item towifyCarouselContent>
-    <div style="width: 200px; height: 200px;"
-         [style.background]="item.background"
+    <div
+      style="width: 200px; height: 200px"
+      [style.background]="item.background"
     ></div>
   </ng-template>
 </towify-carousel>
