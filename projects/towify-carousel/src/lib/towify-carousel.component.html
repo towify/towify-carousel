@@ -1,0 +1,55 @@
+<div
+  class="carousel-container"
+  cdkDrag
+  [cdkDragConstrainPosition]="computeDragRenderPos"
+  (cdkDragStarted)="dragStart($event)"
+  (cdkDragEnded)="dragEnd()"
+  (cdkDragMoved)="dragMove($event)"
+  #carouselContainer
+>
+  <ng-container *ngIf="data.length > 1">
+    <div
+      class="carousel-item"
+      [ngClass]="config.type === 'slide' ? 'slide-previous' : 'fade-previous'"
+      [style.transform]="config.type === 'slide' ? 'translate(' + viewTranslateX + 'px, 0)' : ''"
+      [style.opacity]="config.type === 'slide' ? 1 : (viewTranslateX > 0 ? viewOpacity : 0)"
+      [style.transition]="viewTransition"
+    >
+      <ng-container
+        *ngIf="content"
+        [ngTemplateOutlet]="content.templateRef"
+        [ngTemplateOutletContext]="{$implicit: data[currentIndex > 0 ? (currentIndex - 1) : (data.length - 1)]}"
+      ></ng-container>
+    </div>
+  </ng-container>
+  <ng-container>
+    <div
+      class="carousel-item current"
+      [style.transform]="config.type === 'slide' ? 'translate(' + viewTranslateX + 'px, 0)' : ''"
+      [style.opacity]="config.type === 'slide' ? 1 : (1 - viewOpacity)"
+      [style.transition]="viewTransition"
+      (transitionend)="transitionEnd()"
+    >
+      <ng-container
+        *ngIf="content"
+        [ngTemplateOutlet]="content.templateRef"
+        [ngTemplateOutletContext]="{$implicit: data[currentIndex]}"
+      ></ng-container>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="data.length > 1">
+    <div
+      class="carousel-item"
+      [ngClass]="config.type === 'slide' ? 'slide-next' : 'fade-next'"
+      [style.transform]="config.type === 'slide' ? 'translate(' + viewTranslateX + 'px, 0)' : ''"
+      [style.opacity]="config.type === 'slide' ? 1 : (viewTranslateX < 0 ? viewOpacity : 0)"
+      [style.transition]="viewTransition"
+    >
+      <ng-container
+        *ngIf="content"
+        [ngTemplateOutlet]="content.templateRef"
+        [ngTemplateOutletContext]="{$implicit: data[currentIndex < (data.length - 1) ? (currentIndex + 1) : 0]}"
+      ></ng-container>
+    </div>
+  </ng-container>
+</div>
