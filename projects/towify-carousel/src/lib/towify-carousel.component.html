@@ -3,8 +3,9 @@
   cdkDrag
   [cdkDragConstrainPosition]="computeDragRenderPos"
   (cdkDragStarted)="dragStart($event)"
-  (cdkDragEnded)="dragEnd()"
+  (cdkDragEnded)="dragEnd($event)"
   (cdkDragMoved)="dragMove($event)"
+  (click)="carouselClick($event)"
   #carouselContainer
 >
   <ng-container *ngIf="data.length > 1">
@@ -28,6 +29,7 @@
       [style.transform]="config.type === 'slide' ? 'translate(' + viewTranslateX + 'px, 0)' : ''"
       [style.opacity]="config.type === 'slide' ? 1 : (1 - viewOpacity)"
       [style.transition]="viewTransition"
+      [style.pointer-events]="viewTranslateX !== 0 || viewOpacity !== 0 ? 'none' : 'auto'"
       (transitionend)="transitionEnd()"
     >
       <ng-container
