@@ -4,7 +4,7 @@
 */
 
 import { Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
+import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { TowifyCarouselContentDirective } from './towify-carousel-content.directive';
 import { CarouselType } from './towify-carousel.type';
 
@@ -89,6 +89,11 @@ export class TowifyCarouselComponent implements OnInit {
     }, this.config.delay === 0 ? 100 : this.config.delay * 1000)
   }
 
+  carouselClick(event: MouseEvent) {
+    if (!this.viewTransition) return;
+    event.stopPropagation();
+    event.preventDefault();
+  }
 
   dragStart(data: CdkDragStart) {
     if (data.event.type === 'mousemove') {
@@ -134,8 +139,10 @@ export class TowifyCarouselComponent implements OnInit {
     }
   }
 
-  dragEnd() {
+  dragEnd(data: CdkDragEnd) {
     if (Math.abs(this.viewTranslateX) > 5) {
+      data.event.stopPropagation();
+      data.event.preventDefault();
       if (this.viewTranslateX > 0) {
         this.#prepareIndex = this.currentIndex - 1;
         this.viewTranslateX = this.#containerRect.width ;
