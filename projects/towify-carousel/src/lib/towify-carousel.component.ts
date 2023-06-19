@@ -38,6 +38,7 @@ export class TowifyCarouselComponent implements OnInit {
   #delayTimeOut?: number;
   #prepareIndex;
   #startX;
+  #startY;
   #containerRect: {
     x: number;
     y: number;
@@ -58,6 +59,7 @@ export class TowifyCarouselComponent implements OnInit {
   constructor() {
     this.#prepareIndex = 0;
     this.#startX = -1;
+    this.#startY = -1;
     this.#containerRect = {
       x: 0,
       y: 0,
@@ -77,7 +79,7 @@ export class TowifyCarouselComponent implements OnInit {
   }
 
   autoPlayAnimation() {
-    if (this.#delayTimeOut) return;
+    if (this.#delayTimeOut || this.data.length < 2) return;
     this.#delayTimeOut = window.setTimeout(() => {
       this.#prepareIndex = this.currentIndex + 1;
       this.viewTranslateX = 0 - (this.carouselContainer.nativeElement as HTMLElement).clientWidth;
@@ -98,8 +100,10 @@ export class TowifyCarouselComponent implements OnInit {
   dragStart(data: CdkDragStart) {
     if (data.event.type === 'mousemove') {
       this.#startX = (<MouseEvent>data.event).clientX;
+      this.#startY = (<MouseEvent>data.event).clientY;
     } else if ((<TouchEvent>data.event).touches.length === 1) {
       this.#startX = (<TouchEvent>data.event).touches[0].clientX;
+      this.#startY = (<TouchEvent>data.event).touches[0].clientY;
     }
     const swiperContainerRect = (
       this.carouselContainer.nativeElement as HTMLElement
@@ -121,13 +125,21 @@ export class TowifyCarouselComponent implements OnInit {
   }
 
   dragMove(data: CdkDragMove) {
-    let moveX = -1
+    if (this.data.length < 2) return;
+    let moveX = -1;
+    let moveY = -1;
     if (data.event.type === 'mousemove') {
       moveX = (<MouseEvent>data.event).clientX;
+      moveY = (<MouseEvent>data.event).clientY;
     } else if ((<TouchEvent>data.event).touches.length === 1) {
       moveX = (<TouchEvent>data.event).touches[0].clientX;
+      moveY = (<TouchEvent>data.event).touches[0].clientY;
     }
     if (this.#startX === -1 || moveX === -1) {
+      return;
+    }
+    if (Math.abs(moveX - this.#startX) < Math.abs(moveY - this.#startY)) {
+      this.viewTranslateX = 0;
       return;
     }
     if (Math.abs(moveX - this.#startX) > this.#containerRect.width) {
@@ -140,6 +152,7 @@ export class TowifyCarouselComponent implements OnInit {
   }
 
   dragEnd(data: CdkDragEnd) {
+    if (this.data.length < 2) return;
     if (Math.abs(this.viewTranslateX) > 5) {
       data.event.stopPropagation();
       data.event.preventDefault();

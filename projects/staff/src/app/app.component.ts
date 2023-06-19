@@ -13,14 +13,8 @@ export class AppComponent {
   }, {
     background: 'black'
   }, {
-    background: 'blue'
-  }, {
-    background: 'yellow'
-  }, {
-    background: 'purple'
-  }, {
-    background: 'pink'
-  }, {
     background: 'green'
+  }, {
+    background: 'gray'
   }]
 }
